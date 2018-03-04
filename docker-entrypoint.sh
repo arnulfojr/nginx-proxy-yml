@@ -4,12 +4,12 @@ set -e
 
 echo 'Container ready...'
 
-nginx-helper load /services.yml /etc/nginx/conf.d/default.conf
+nginx-helper load /proxy.yml /etc/nginx/conf.d/default.conf
 
 # debug mode
 if [ "${1}" = 'debug' ]; then
   echo 'Debug mode activated'
-  nginx-helper preview /services.yml
+  nginx-helper preview /proxy.yml
   exec nginx-debug -g 'daemon off;'
 fi
 
