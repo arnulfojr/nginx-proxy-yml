@@ -9,6 +9,7 @@ nginx-helper load /services.yml /etc/nginx/conf.d/default.conf
 # debug mode
 if [ "${1}" = 'debug' ]; then
   echo 'Debug mode activated'
+  nginx-helper preview /services.yml
   exec nginx-debug -g 'daemon off;'
 fi
 
