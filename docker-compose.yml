@@ -9,10 +9,8 @@ services:
     ports:
       - 8080:80
       - 8081:443
-    networks:
-      - local-dev
 
 networks:
-  local-dev:
+  default:
     external:
       name: local-dev
