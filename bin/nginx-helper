@@ -1,0 +1,7 @@
+#!/usr/bin/python3
+
+from cli.nginx_helper import cli
+
+
+if __name__ == '__main__':
+    cli()

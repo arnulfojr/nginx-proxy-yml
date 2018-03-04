@@ -1,0 +1,18 @@
+version: '2.1'
+
+services:
+  proxy:
+    image: local-proxy
+    build: .
+    volumes:
+      - ./services.yml:/services.yml
+    ports:
+      - 8080:80
+      - 8081:443
+    networks:
+      - local-dev
+
+networks:
+  local-dev:
+    external:
+      name: local-dev

@@ -1,0 +1,7 @@
+version: '2.1'
+services:
+  proxy:
+    command: debug
+    volumes:
+      - ./docker-entrypoint.sh:/docker-entrypoint.sh
+      - ./src/:/nginx-helper/src/

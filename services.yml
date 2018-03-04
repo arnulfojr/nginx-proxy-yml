@@ -1,0 +1,20 @@
+proxy:
+  port: 80
+  server:
+    name: proxy
+
+services:
+  ar-studio-mvp-booking-app:
+    strict_match: False
+    upstream: booking-app
+    prefix: ar-studio-mvp-booking-app
+    pass_prefix: True
+    protocol: http
+    port: 5000
+  ar-studio-mvp-list-bookings:
+    strict_match: False
+    upstream: booking-list
+    prefix: ar-studio-mvp-list-bookings
+    pass_prefix: True
+    protocol: http
+    port: 80
