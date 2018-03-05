@@ -1,5 +1,17 @@
 # Docker + Nginx + YAML
 
+# Docker
+
+To use this image, you would need to have an exisitng docker network. There's no requirement on the docker network to use, but for local development it is recommended to use `bridge`
+
+To get started:
+
+`docker network create local-network`
+
+This command will create a docker network called `local-network`.
+This is required as the this image is meant to be used as a container that is attached to an existing network.
+
+
 # Services
 
 ## File Structure
