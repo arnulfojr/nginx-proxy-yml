@@ -13,7 +13,7 @@ services:
     port: 5000
   ar-studio-mvp-list-bookings:
     strict_match: False
-    upstream: booking-list
+    upstream: booking-lists
     prefix: ar-studio-mvp-list-bookings
     pass_prefix: True
     protocol: http
