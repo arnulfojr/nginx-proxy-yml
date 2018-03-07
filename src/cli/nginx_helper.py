@@ -1,6 +1,8 @@
 import click
+import json
 
 from core.nginx import config
+from core.exc import ValidationError
 
 
 @click.group()
@@ -18,7 +20,11 @@ def echo(server, upstreams):
 @cli.command()
 @click.argument('filename')
 def preview(filename):
-    server, upstreams = config.load_configuration(filename)
+    try:
+        server, upstreams = config.load_configuration(filename)
+    except ValidationError as e:
+        click.echo(json.dumps(e.errors))
+        return 1
     echo(server, upstreams)
 
 
@@ -27,7 +33,12 @@ def preview(filename):
 @click.argument('output')
 @click.option('-v', '--verbose', count=True)
 def load(filename, output, verbose):
-    server, upstreams = config.load_configuration(filename)
+    try:
+        server, upstreams = config.load_configuration(filename)
+    except ValidationError as e:
+        click.echo(json.dumps(e.errors))
+        return 1
+
     if verbose:
         echo(server, upstreams)
 

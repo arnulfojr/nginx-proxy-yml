@@ -1,20 +1,23 @@
 proxy:
   port: 80
+  to:
+    protocol: https
+    host: develop.studio-dev.trv.cloud
   server:
-    name: proxy
+    name: local.studio-dev.trv.cloud
 
 services:
   ar-studio-mvp-booking-app:
     strict_match: False
-    upstream: booking-app
-    prefix: ar-studio-mvp-booking-app
-    pass_prefix: True
-    protocol: http
     port: 5000
+    prefix:
+      value: ar-studio-mvp-booking-app
+      pass_prefix: True
+    protocol: http
   ar-studio-mvp-list-bookings:
     strict_match: False
-    upstream: booking-lists
-    prefix: ar-studio-mvp-list-bookings
-    pass_prefix: True
+    prefix:
+      value: ar-studio-mvp-list-bookings
+      pass_prefix: True
     protocol: http
     port: 80
