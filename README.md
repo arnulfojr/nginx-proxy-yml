@@ -19,15 +19,18 @@ This is required as the this image is meant to be used as a container that is at
 ```yaml
 proxy:
   port: 80  # nginx's port
+  to:
+    protocol: https
+    host: www.google.com  # host to redirect unmatched locations
   server:
     name: proxy-name  # value of server_name
 
 services:
   app:  # service name
     strict_match: True  # uses the '=' operator to match the location
-    upstream: my-apps-upstream  # optional: upstream name (if absent uses the service name)
-    prefix: my-app
-    pass_prefix: True  # if the prefix used in the location shall be passed to the proxied service
+    prefix:
+      value: my-app
+      pass_prefix: True  # if the prefix used in the location shall be passed to the proxied service
     protocol: http  # if HTTPS is required TLS/SSL is required + certs
     port: 5000  # container's port number
   another-app:  # service name
