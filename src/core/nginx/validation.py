@@ -12,6 +12,12 @@ _PROXY_SCHEMA = {
         'empty': False,
         'default': 80
     },
+    'update_request': {
+        'type': 'boolean',
+        'required': False,
+        'empty': False,
+        'default': False
+    },
     'to': {
         'type': 'dict',
         'required': True,
