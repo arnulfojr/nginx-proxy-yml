@@ -1,4 +1,4 @@
-# Docker + Nginx + YAML
+# Docker Networks + Nginx + YAML
 
 ## What is it?
 
@@ -82,7 +82,7 @@ Example:
 ```yaml
 # docker-compose.yml
 services:
-  app:
+  app:  # service name
     networks:
       local-network:
         aliases:
@@ -96,6 +96,9 @@ networks:
     external:
       name: local-network
 ```
+
+If no aliases are wished then the name of the service has to match with the label `local.application.name`.
+In the example above, the service name is `app` then the label shall have the value of `app` and no aliases.
 
 This is the minimum set up in a `docker-compose.yml` file to set a service detected and registered in the proxy.
 
