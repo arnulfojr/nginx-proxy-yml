@@ -71,7 +71,7 @@ So for the containers to be taken in consideration in the proxy's rules some doc
 
 Example:
 
-```
+```yaml
 # docker-compose.yml
 services:
   app:
