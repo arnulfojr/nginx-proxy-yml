@@ -4,15 +4,11 @@ MAINTAINER Arnulfo Solis arnulfojr94@gmail.com
 
 ENV PATH "/nginx-helper/bin:${PATH}"
 
-# API Conf
-ENV API_PORT 8080
-ENV API_HOST "0.0.0.0"
-
 # Docker socket config
 ENV DOCKER_HOST "unix:///tmp/docker.sock"
 
 # Add the python scripts
-RUN apk add --no-cache python3-dev yaml build-base
+RUN apk add --no-cache python3-dev yaml
 RUN python3 -m ensurepip && rm -r /usr/lib/python*/ensurepip
 
 ADD ./requirements.txt /nginx-helper/requirements.txt
@@ -26,7 +22,7 @@ ADD ./bin /nginx-helper/bin
 # Volume for the proxy configuration file
 VOLUME /proxy.yml
 
-EXPOSE 80 443 ${API_PORT}
+EXPOSE 80 443
 
 # Set up the docker-entrypoint
 ADD ./docker-entrypoint.sh /docker-entrypoint.sh

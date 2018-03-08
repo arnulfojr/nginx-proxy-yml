@@ -14,11 +14,6 @@ if [ "${1}" = 'debug' ]; then
   exec nginx-debug -g 'daemon off;'
 fi
 
-# run api
-if [ "${1}" = 'api' ]; then
-  run-api
-fi
-
 # serve mode
 if [ "${1}" = 'serve' ]; then
   exec nginx -g 'daemon off;'
