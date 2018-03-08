@@ -3,20 +3,21 @@
 set -e
 
 echo 'Container ready...'
+echo "command: ${@}"
 
-nginx-helper docker_preview /proxy.yml
+# serve
+if [ "${1}" = 'debug' -o "${1}" = 'serve' ]; then
 
-nginx-helper from_docker /proxy.yml /etc/nginx/conf.d/default.conf
+  if [ "${2}" = 'docker' ]; then
+    nginx-helper preview docker /proxy.yml
+    nginx-helper load docker /proxy.yml /etc/nginx/conf.d/default.conf
+  else
+    nginx-helper preview file /proxy.yml
+    nginx-helper load file /proxy.yml /etc/nginx/conf.d/default.conf
+  fi
 
-# debug mode
-if [ "${1}" = 'debug' ]; then
-  echo 'Debug mode activated'
+  echo 'Nginx is running in debug mode'
   exec nginx-debug -g 'daemon off;'
-fi
-
-# serve mode
-if [ "${1}" = 'serve' ]; then
-  exec nginx -g 'daemon off;'
 fi
 
 # update config
