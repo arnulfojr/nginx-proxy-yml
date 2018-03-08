@@ -29,6 +29,8 @@ Therefore, all the services have to be attached to a network.
 
 ### Defining through a file
 
+Command to the container: `serve file` or `debug file`
+
 In the root project a file named `proxy.yml` defines basics of the proxy configuration and basics of services (optional).
 
 ```yaml
@@ -53,6 +55,8 @@ services:  # optional
 ```
 
 ### Definition through Docker
+
+Command to the container: `serve docker` or `debug docker`
 
 This image comes with dynamic discovery of services registered in a network.
 This means that on container startup, the container will request the Docker API for the connected containers in the current network.
