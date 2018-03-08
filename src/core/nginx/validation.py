@@ -80,6 +80,16 @@ _SERVICES_SCHEMA = {
         'type': 'integer',
         'default': 80,
         'empty': False
+    },
+    'service_name': {
+        'type': 'string',
+        'required': False,
+        'empty': False
+    },
+    'upstream': {
+        'type': 'string',
+        'required': False,
+        'empty': False
     }
 }
 

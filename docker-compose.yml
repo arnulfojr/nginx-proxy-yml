@@ -4,13 +4,15 @@ services:
   proxy:
     image: local-proxy
     build: .
+    command: ['serve', 'docker']
     volumes:
       - ./proxy.yml:/proxy.yml
+      - /var/run/docker.sock:/tmp/docker.sock
     ports:
       - 80:80
-      - 8081:443
+      - 8080:443
 
 networks:
   default:
     external:
-      name: trv-studio
+      name: local-dev

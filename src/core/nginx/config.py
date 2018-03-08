@@ -50,12 +50,44 @@ def create_service(name, context):
     if 'prefix' not in context:
         context['prefix'] = dict(value=name)
 
-    context['upstream'] = context.get('upstream') or name
+    context['upstream'] = name or context.get('upstream')
+    context['service_name'] = context.get('service_name') or name
 
-    upstream = create_upstream(context['upstream'], name, **context)
+    upstream = create_upstream(name, **context)
     location = create_location(**context)
 
     return upstream, location
+
+
+def _join_all(proxy, locations, upstreams):
+    static_upstreams = '\n'.join(upstreams)
+    static_locations = '\n'.join(locations)
+    static_server = create_server(proxy['port'],
+                                  proxy['server']['name'],
+                                  locations=static_locations)
+    return static_server, static_upstreams
+
+
+def from_containers(containers, filename):
+    configuration = yml.load(filename)
+    proxy = validation.validate_proxy(configuration.get('proxy'))
+    locations = []
+    upstreams = []
+
+    for container in containers:
+        service = validation.validate_service(container)
+        upstream, location = create_service(service['service_name'],
+                                            service)
+        locations.append(location)
+        upstreams.append(upstream)
+
+    endpoint = proxy['to']['host']
+    protocol = proxy['to']['protocol']
+    default_location = create_default_location(endpoint,
+                                               protocol=protocol)
+    locations.append(default_location)
+
+    return _join_all(proxy, locations, upstreams)
 
 
 def load_configuration(filename):
@@ -79,10 +111,4 @@ def load_configuration(filename):
     default_location = create_default_location(endpoint, protocol=protocol)
     locations.append(default_location)
 
-    static_locations = '\n'.join(locations)
-    static_upstreams = '\n'.join(upstreams)
-
-    static_server = create_server(proxy['port'], proxy['server']['name'],
-                                  locations=static_locations)
-
-    return static_server, static_upstreams
+    return _join_all(proxy, locations, upstreams)
