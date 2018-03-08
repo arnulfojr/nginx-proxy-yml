@@ -26,8 +26,12 @@ def transform_container(container):
 
 def transform(network, me=None):
     network.reload()
+
+    def has_label(label, container):
+        return container.labels.get(label) is not None
+    
     containers = [transform_container(c)
                   for c in network.containers
-                  if c != me]
+                  if c != me and has_label(_APPLICATION_NAME_LABEL, c)]
     return containers
 
