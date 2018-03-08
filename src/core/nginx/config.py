@@ -25,14 +25,18 @@ def create_location(prefix, upstream, protocol='http',
                     http_version='1.1', strict_match=True, **kwargs):
     prefix_value = prefix.get('value')
     pass_prefix = prefix.get('pass_prefix')
-    return f"""
-location {'=' if strict_match else ''} /{prefix_value if prefix_value else ''} {{
+    update_request = kwargs.get('update_request')
+    headers = f"""
     proxy_http_version {http_version};
     proxy_cache_bypass $http_upgrade;
     proxy_set_header X-Forwareded-For $proxy_add_x_forwarded_for;
     proxy_set_header Upgrade $http_upgrade;
     proxy_set_header Host $host;
     proxy_set_header X-Real-IP $remote_addr;
+    """
+    return f"""
+location {'=' if strict_match else ''} /{prefix_value if prefix_value else ''} {{
+    {headers if update_request else ''}
     proxy_pass {protocol}://{upstream}/{prefix_value if pass_prefix else ''};
 }}
 """
@@ -46,7 +50,7 @@ location / {{
 """
 
 
-def create_service(name, context):
+def create_service(name, context, **options):
     if 'prefix' not in context:
         context['prefix'] = dict(value=name)
 
@@ -54,7 +58,8 @@ def create_service(name, context):
     context['service_name'] = context.get('service_name') or name
 
     upstream = create_upstream(name, **context)
-    location = create_location(**context)
+    location = create_location(update_request=options.get('update_request'),
+                               **context)
 
     return upstream, location
 
@@ -71,13 +76,15 @@ def _join_all(proxy, locations, upstreams):
 def from_containers(containers, filename):
     configuration = yml.load(filename)
     proxy = validation.validate_proxy(configuration.get('proxy'))
+    update_request = proxy['update_request']
     locations = []
     upstreams = []
 
     for container in containers:
         service = validation.validate_service(container)
         upstream, location = create_service(service['service_name'],
-                                            service)
+                                            service,
+                                            update_request=update_request)
         locations.append(location)
         upstreams.append(upstream)
 
