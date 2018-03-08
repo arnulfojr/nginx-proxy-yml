@@ -1,8 +1,9 @@
 proxy:
   port: 80
+  update_request: True
   to:
     protocol: https
-    host: develop.studio-dev.trv.cloud
+    host: develop.studio-dev.trv.cloud  # master.studio-sandbox.trv.cloud
   server:
     name: local.studio-dev.trv.cloud
 
