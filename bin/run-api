@@ -1,0 +1,9 @@
+#!/usr/bin/python3
+
+from aiohttp import web
+from api import api_app
+from settings.api import HOST, PORT
+
+
+if __name__ == '__main__':
+    web.run_app(api_app, host=HOST, port=PORT)

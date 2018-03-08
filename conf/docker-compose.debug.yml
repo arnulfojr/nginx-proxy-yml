@@ -5,3 +5,4 @@ services:
     volumes:
       - ./docker-entrypoint.sh:/docker-entrypoint.sh
       - ./src/:/nginx-helper/src/
+      - ./bin/:/nginx-helper/bin/

@@ -4,13 +4,19 @@ set -e
 
 echo 'Container ready...'
 
-nginx-helper load /proxy.yml /etc/nginx/conf.d/default.conf
+nginx-helper docker_preview /proxy.yml
+
+nginx-helper from_docker /proxy.yml /etc/nginx/conf.d/default.conf
 
 # debug mode
 if [ "${1}" = 'debug' ]; then
-  nginx-helper preview /proxy.yml
   echo 'Debug mode activated'
   exec nginx-debug -g 'daemon off;'
+fi
+
+# run api
+if [ "${1}" = 'api' ]; then
+  run-api
 fi
 
 # serve mode
