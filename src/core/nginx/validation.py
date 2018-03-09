@@ -12,6 +12,12 @@ _PROXY_SCHEMA = {
         'empty': False,
         'default': 80
     },
+    'from_labels': {
+        'type': 'boolean',
+        'required': False,
+        'default': True,
+        'empty': False
+    },
     'update_request': {
         'type': 'boolean',
         'required': False,
