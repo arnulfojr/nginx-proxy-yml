@@ -1,6 +1,7 @@
 proxy:
   port: 80
   update_request: True
+  from_labels: False
   to:
     protocol: https
     host: develop.studio-dev.trv.cloud  # master.studio-sandbox.trv.cloud

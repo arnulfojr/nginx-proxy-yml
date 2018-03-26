@@ -73,9 +73,13 @@ def _join_all(proxy, locations, upstreams):
     return static_server, static_upstreams
 
 
-def from_containers(containers, filename):
+def proxy_conf(filename):
     configuration = yml.load(filename)
-    proxy = validation.validate_proxy(configuration.get('proxy'))
+    return validation.validate_proxy(configuration.get('proxy')), configuration.get('services')
+
+
+def from_containers(containers, filename):
+    proxy, _ = proxy_conf(filename)
     update_request = proxy['update_request']
     locations = []
     upstreams = []
@@ -98,10 +102,7 @@ def from_containers(containers, filename):
 
 
 def load_configuration(filename):
-    configuration = yml.load(filename)
-
-    proxy = validation.validate_proxy(configuration.get('proxy'))
-    services = configuration.get('services')
+    proxy, services = proxy_conf(filename)
     names = services.keys()
 
     locations = []
